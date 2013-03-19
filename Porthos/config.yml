@@ -1,0 +1,30 @@
+porthos:
+  fix_overworld_portal_exit: true
+  force_nether_same_portal: true
+
+  nether_ratio: 0.125
+
+  message_in: Warning! Be ready to lose your stuff! Only nether type materials will be able to return to the surface.
+
+  default_drop_in: false
+  blacklist_in: [ENDER_PEARL]
+  whitelist_in: []
+
+  default_drop_out: true
+  blacklist_out: []
+  whitelist_out: 
+    - NETHERRACK
+    - SOUL_SAND
+    - RED_MUSHROOM
+    - BROWN_MUSHROOM
+    - GHAST_TEAR
+    - SKULL_ITEM
+    - GLOWSTONE
+    - GLOWSTONE_DUST
+    - BLAZE_POWDER
+    - BLAZE_RODS
+    - NETHER_BRICK
+    - NETHER_BRICK_STAIRS
+    - NETHER_FENCE
+    - NETHER_STALK
+    - NETHER_STAR
