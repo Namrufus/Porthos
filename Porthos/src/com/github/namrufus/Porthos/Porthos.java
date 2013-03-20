@@ -60,23 +60,16 @@ public class Porthos extends JavaPlugin implements Listener {
 		
 		// load configurations
 		ConfigurationSection config = getConfig().getConfigurationSection("porthos");
-		
 		fixOverworldPortalExit = config.getBoolean("fix_overworld_portal_exit");
 		forceNetherSamePortal = config.getBoolean("force_nether_same_portal");
-		
 		netherRatio = config.getDouble("nether_ratio");
-		
 		messageIn = config.getString("message_in");
-		
 		inItems = new ItemRestriction();
 		outItems = new ItemRestriction();
-		
 		inItems.blacklist = getMaterialSet("porthos.blacklist_in");
 		outItems.blacklist = getMaterialSet("porthos.blacklist_out");
-		
 		inItems.whitelist = getMaterialSet("porthos.whitelist_in");
 		outItems.whitelist = getMaterialSet("porthos.whitelist_out");
-		
 		inItems.defaultDrop = config.getBoolean("default_drop_in");
 		outItems.defaultDrop = config.getBoolean("default_drop_out");
 		
@@ -128,6 +121,7 @@ public class Porthos extends JavaPlugin implements Listener {
 	}
 	
 	public void onDisable() {
+		// save player portal coordinate data
         File file = new File(getDataFolder(), "PortalCoords.yml");
 	    FileConfiguration playerDataConfig = YamlConfiguration.loadConfiguration(file);
 	    
@@ -155,13 +149,14 @@ public class Porthos extends JavaPlugin implements Listener {
 	public void onPlayerPortalEvent(PlayerPortalEvent event) {
 		Player player = event.getPlayer();
 		
+		// only restrict nether portal travel, and only for survival players
 		if (player.getGameMode() == GameMode.CREATIVE)
 			return;
-		
 		if (event.getCause() != TeleportCause.NETHER_PORTAL)
 			return;
 			
 		if (event.getTo().getWorld().getEnvironment() == Environment.NETHER) {
+			// force drop items
 			restrictItems(player, inItems);
 			
 			// when teleporting to the nether, record the location
@@ -199,6 +194,7 @@ public class Porthos extends JavaPlugin implements Listener {
 				return;
 			}
 			
+			// force drop items
 			restrictItems(player, outItems);
 			
 			if (fixOverworldPortalExit) {
@@ -213,6 +209,7 @@ public class Porthos extends JavaPlugin implements Listener {
 	}
 	@EventHandler
 	public void onEntityPortalEnterEvent (EntityPortalEnterEvent event) {
+		// no entity teleportation through portals
 		Entity entity = event.getEntity();
 		if (entity instanceof Player) {
 			Player player = (Player) entity;
